@@ -9,12 +9,15 @@ Input-ul este oferit de la stdin, iar output-ul la stdout, respectând formatul 
 
 ALLOC_ARENA <dimensiune_aren>
 Se alocă un buffer contiguu de dimensiune ce va fi folosit pe post de kernel buffer sau arenă. Alocarea este pur virtuală, adică acest buffer este folosit doar pentru a simula existența unui spațiu fizic aferent zonelor de memorie înlănțuite.
+
 DEALLOC_ARENA
 Se eliberează arena alocată la începutul programului. Cum alocarea arenei a fost făcută virtual, această comandă rezultă în eliberarea tuturor resurselor folosite, precum lista de block-uri și listele de miniblock-uri asociate acestora.
+
 ALLOC_BLOCK <adresă_din_arenă> <dimensiune_block>
 Se marchează ca fiind rezervată o zonă ce începe la adresa <adresă_din_arenă> în kernel buffer cu dimensiunea de <dimensiune_block>
 Dacă nicio adresă din zona de memorie [adresă_din_arenă, adresă_din_arenă + dimensiune) nu a mai fost alocată anterior și nu există alocate zonele de memorie [x, adresă_din_arenă - 1) și [adresă_din_arenă + dimensiune + 1, y], unde x < adresă_din_arenă - 1 și y > adresă_din_arenă + dimensiune + 1, atunci se inserează un nou block în lista de zone alocate.
 Dacă nicio adresă din zona de memorie [adresă_din_arenă, adresă_din_arenă + dimensiune) nu a mai fost alocată anterior și există alocate zonele de memorie [x, adresă_din_arenă - 1) sau [adresă_din_arenă + dimensiune + 1, y], unde x < adresă_din_arenă - 1 și y > adresă_din_arenă + dimensiune + 1, atunci se șterge block-ul/block-urile adiacente din lista de zone alocate și se adaugă la lista internă de miniblock-uri a noii zone contigue de memorie. Cu alte cuvinte, zonele adiacente din memorie vor fi mereu în același block.
+
 FREE_BLOCK <adresă_din_arenă>
 Se eliberează un miniblock.
 Dacă se eliberează unicul miniblock din cadrul unui block, atunci block-ul este la rândul său eliberat.
@@ -23,10 +26,12 @@ Dacă se eliberează un miniblock din mijlocul block-ului, atunci acesta va fi �
 READ <adresă_din_arenă> <dimensiune>
 Se afișează <dimensiune> bytes începând cu adresa <adresă_din_arenă>, iar la final \n.
 Dacă block-ul nu conține <dimensiune> bytes începând cu adresa <adresă_din_arenă>, se va afișa “Warning: size was bigger than the block size. Reading <size> characters.\n” și se vor afișa datele disponibile.
+
 WRITE <adresă_din_arenă> <dimensiune> <date>
 Se scriu <dimensiune> bytes din <date> la adresa <adresă_din_arenă>.
 Dacă <date> nu conține <dimensiune> bytes pe același rând, se va citi în continuare, până la atingerea dimensiunii stabilite.
 Dacă block-ul nu conține <dimensiune> bytes începând cu adresa <adresă_din_arenă>, se va afișa “Warning: size was bigger than the block size. Writing <size> characters.\n”.
+
 PMAP
 Tradițional, apelul pmap(), este folosit pentru a vizualiza zonele de memorie utilizate de un proces. Printre acestea se numără .text, .bss, .data, .rodata, etc, însă voi veți avea de implementat o funcționalitate mai facilă.
 Se afișează informații despre block-urile și miniblock-urile existente.
