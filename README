@@ -1,0 +1,60 @@
+**Nume: Croitoru Constantin-Bogdan**
+**Grupa: 314CA**
+
+## Tema1
+
+### Descriere:
+Programul simuleaza un alocator de memorie virtual, implementent cu ajutorul 
+listei dublu-inlantuite. Acesta realizeaza urmatoarele comenzi:
+
+**1.ALLOC_ARENA**
+Aceasta comanda este realizata de functia alloc_arena care aloca datele 
+necesare si initializeaza datele despre arena.
+
+**2.DEALLOC_ARENA**
+Aceasta elibereaza memoria totala. In interiorul acesteia se folosesc doua 
+functii my_free_block si my_free_miniblock care elibereza memoria pentru un 
+block, respectiv un miniblock.
+
+**3.ALLOC_BLOCK**
+Aceasta comanda este realizata de functia alloc_block. In interiorul ei se 
+verifica daca adresa este buna si se apeleza alte 2 functii: una care creeaza 
+blockul si il adauga in lista de miniblockuri cu ajutorul functiei 
+dll_add_nth_node, si alta care verifica daca are vecini si ii uneste. In 
+functia care uneste blockurile, se verifica daca se pot unii blockurile, in caz
+afirmativ listele de miniblockuri se unesc, iar memoria blockului este 
+eliberata.
+
+**4.FREE_BLOCK**
+Aceasta elibereaza memoria pentru un miniblock dintr-un block. Daca exista 
+un singur miniblock se elibereaza si blockul, daca este la inceput sau final 
+se elibereaza miniblockul si se schimba size-ul blockului si start_address-ul, 
+iar daca miniblockul este la mijloc se creeaza inca un block care retine 
+miniblockurile din partea dreapta a miniblockului eliminat, iar blockul curent 
+va retine miniblockurile pana la miniblockul eliminat.In interiorul acesteia se
+folosesc funtiile dll_remove_nth_node care elimina un nod dintr-o lista si 
+intoarce un ponter la el, si dll_add_nth_node care adauga un nod intr-o lista.
+
+**5.READ**
+Se realizeaza de functia read. Aceasta citeste n caractere de la o adresa de 
+memorie. Intai se verifica daca adresa este valida, iar apoi daca exista 
+permisiuni de citire. Daca nu exista n caractere se afiseaza un mesaj cu cate 
+caractere se pot citi si se afiseaza sirul ce se poate citi.
+
+**6.WRITE**
+Aceasta este realizata de functia write. Aceasta scrie n caractere la o adresa 
+de memorie. Intai se verifica daca adresa este valida, iar apoi daca exista 
+permisiuni de scriere. Daca nu exista suficient spatiu sa se scrie n caractere,
+se afiseaza un mesaj de warning, si se scriu cate caractere au loc.
+
+**7.PMAP**
+Functia afiseaza detaliile despre arena, cata memorie i s-a alocat , cata are 
+libera, numarul de blockuri si miniblockuri si detaliile despre acestea. Pentru 
+a calcula memoria memoria libera se calculeaza in fuctia memory_use memoria 
+utilizata si se scade din memoria totala.
+
+**8.MPROTEC**
+Operatia este realizata de functia mprotect si schimba permisiunile de la o 
+anumita adresa cu noile permisiuni citite de la tastatura. Intai se verifica 
+daca adresa este valida, iar apoi se schimba permisiunile.
+
